@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { env } from 'process';
 
 export async function POST(req: Request) {
     try {
@@ -39,12 +38,12 @@ export async function POST(req: Request) {
         console.log('Forwarding messages to local LLM:', chatMessages);
 
         const res = await fetch(
-            'http://localhost:12434/engines/llama.cpp/v1/chat/completions',
+            process.env.LLM_API_URL as string,
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    model: "ai/gemma3",
+                    model: process.env.LLM_MODEL,
                     messages: chatMessages,
                     stream: false,
                 }),
